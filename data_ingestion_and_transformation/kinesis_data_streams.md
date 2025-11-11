@@ -204,3 +204,5 @@ Athena / QuickSight → query & visualize
 
 **References:**
 - AWS Docs: [Kinesis Data Streams Developer Guide](https://docs.aws.amazon.com/streams/latest/dev/introduction.html)
+
+---
