@@ -49,3 +49,18 @@
   - **RDS** → Warm/Hot standby (Multi-AZ synchronous)
   - **DynamoDB** → Active-Active (Global Tables)
   - **S3** → Active-Active by default (multi-AZ redundancy)
+
+- **AWS Data Migration & Ingestion**
+
+  | **Service** | **Purpose / Function** | **Key Points for Exam** |
+  |--------------|------------------------|--------------------------|
+  | **AWS DMS (Database Migration Service)** | Migrate & replicate databases to AWS with minimal downtime | Supports full load + CDC; integrates with **SCT**; sources like Oracle/MySQL → targets RDS, Aurora, Redshift, S3 |
+  | **AWS DMS Fleet Advisor** | Discover & assess on-prem databases before migration | Generates inventory & readiness reports; used *before* DMS |
+  | **AWS DataSync** | Automate **online file transfers/sync** between on-prem & AWS | Works with **NFS/SMB/S3/EFS/FSx**; up to **10 Gbps**; scheduled & incremental |
+  | **AWS Transfer Family** | Managed **SFTP/FTPS/FTP endpoints** for S3 or EFS | Secure user/partner uploads & downloads; replaces on-prem FTP servers |
+  | **AWS Snow Family** | **Offline, physical** data transfer & edge compute | **Snowcone < Snowball < Snowmobile**; petabyte-scale; encrypted devices shipped to AWS |
+  | **Amazon S3** | Central object store for all ingested data | Multi-AZ durability; supports event triggers (Lambda, Glue) |
+  | **AWS Glue (ETL & Catalog)** | Transform & catalog data for analytics | Serverless Spark ETL; maintains schema in Glue Catalog |
+  | **Amazon Redshift** | Cloud data warehouse | Ingest via DMS or S3; supports Spectrum for S3 queries |
+  | **Amazon Athena** | Serverless SQL on S3 data | Query S3 directly using SQL; integrates with Glue Catalog |
+  | **AWS Lake Formation** | Fine-grained access control for data lakes | Manages permissions across S3, Glue, Athena, Redshift |
