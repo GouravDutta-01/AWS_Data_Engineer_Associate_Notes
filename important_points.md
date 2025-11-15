@@ -64,3 +64,59 @@
   | **Amazon Redshift** | Cloud data warehouse | Ingest via DMS or S3; supports Spectrum for S3 queries |
   | **Amazon Athena** | Serverless SQL on S3 data | Query S3 directly using SQL; integrates with Glue Catalog |
   | **AWS Lake Formation** | Fine-grained access control for data lakes | Manages permissions across S3, Glue, Athena, Redshift |
+
+- **S3 Event Notifications vs EventBridge**
+
+  - **S3 Event Notifications** → Low-latency, simple, cost-effective triggers directly from S3. Supports only Lambda, SQS, and SNS with basic prefix/suffix filters. Limited fan-out and reliability.
+
+  - **EventBridge** → Advanced event routing with complex filtering, multi-target fan-out, cross-account support, retries, and DLQ. Slightly higher latency and additional cost.
+
+  - When to use: S3 Notifications → simple object-created triggers. EventBridge → complex routing, multi-service workflows, cross-account, advanced filtering.
+
+- **AWS Glue Crawler – Schema Grouping (70% Rule)**
+
+  - Glue groups files into **one table** if a **dominant schema appears in >70%** of the files in that S3 path.
+  - If no schema exceeds **70%**, the crawler **creates separate tables** (one per schema cluster).
+  - Columns from minority schemas are added as **nullable** fields in the combined table.
+  - Maximum allowed schema clusters = **5**.
+  - Behavior is evaluated **per S3 path**, not across folders.
+  - Use CloudWatch crawler logs to verify the clusters created.
+
+  **Example:**
+  - **INPUT-FOLDER1:** 8×SCH_A + 2×SCH_B → **80%** → **1 table** (merged schema).
+  - **INPUT-FOLDER2:** 7×SCH_A + 3×SCH_B → **70%** → **2 tables** (schemas split).
+
+- **EBS Volume Selection**
+
+  - **io1 / io2 — Provisioned IOPS SSD**
+    - Highest & consistent IOPS (up to ~64k).
+    - Provision exact IOPS.
+    - Use for: **Critical DBs, OLTP, >16k IOPS**.
+
+  - **gp3 / gp2 — General Purpose SSD**
+    - Balanced performance & cost.
+    - gp3: scale IOPS + throughput independently.
+    - Use for: **General apps, small/medium DBs, boot volumes**.
+
+  - **st1 — Throughput Optimized HDD**
+    - High **throughput (MB/s)**, low IOPS.
+    - Use for: **Big data, logs, ETL, sequential workloads**.
+
+  - **sc1 — Cold HDD**
+    - Lowest cost, lowest performance.
+    - Use for: **Infrequent access, archival**.
+
+  - Quick rules
+    - **DB + high IOPS → io1/io2**
+    - **Balanced workload → gp3/gp2**
+    - **Sequential throughput → st1**
+    - **Cheap archival → sc1**
+
+  - Note
+    - **SSD = random I/O, low latency**
+    - **HDD = sequential throughput, lower IOPS**
+
+- **Event Source mapping**
+  - Event Source Mapping (ESM) connects poll-based event sources (SQS, Kinesis, DynamoDB Streams, Kafka) to Lambda.
+  - Lambda internally performs efficient long polling (not billed) and automatically batches records, manages checkpoints, retries, and parallelization (shards/partitions).
+  - Push-based sources (S3, SNS, EventBridge, API Gateway) do NOT use ESM.
