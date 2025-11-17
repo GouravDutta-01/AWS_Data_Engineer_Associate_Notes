@@ -137,7 +137,7 @@ Glacier transitions happen through S3 restore + lifecycle; DataSync does not “
 
 ---
 
-## 12. Common Exam Traps
+## 12. Important Notes
 
 * DataSync does **not** do continuous sync → Storage Gateway File Gateway does.  
 * DataSync cannot migrate **databases** → use DMS.  
