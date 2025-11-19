@@ -13,6 +13,16 @@
   - **ElastiCache** → **In-memory cache** for performance improvement, not for persistence. Data may be lost if a node fails unless snapshots are manually configured.
   - **Use case difference:** MemoryDB → real-time, durable workloads (microservices, finance). ElastiCache → caching layer in front of RDS/DynamoDB.
 
+- **AWS DataSync vs AWS Transfer Family**
+
+  - **DataSync** - High-speed, automated data migration and replication between on-prem, AWS, and other clouds. Uses optimized protocol, supports scheduling and validation.
+
+  - **Transfer Family** - Managed SFTP/FTPS/FTP servers for partner/user file exchange. Not designed for bulk migration.
+
+  - External Vendors: Transfer Family is used when external vendors/partners must upload/download files via SFTP/FTPS/FTP. DataSync is not vendor-facing.
+
+  - Choosing: DataSync - migrations. Transfer Family - external file transfer workflows.
+
 - **MemoryDB vs DynamoDB vs Aurora**
   - **MemoryDB** → Ultra-low latency (≈100–400 µs), Redis API, in-memory with durability.
   - **DynamoDB** → Serverless NoSQL key-value store, millisecond latency, automatically scalable, supports **Global Tables** for multi-region replication.
