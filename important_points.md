@@ -15,9 +15,9 @@
 
 - **AWS DataSync vs AWS Transfer Family**
 
-  - **DataSync** - High-speed, automated data migration and replication between on-prem, AWS, and other clouds. Uses optimized protocol, supports scheduling and validation.
+  - **DataSync** - High-speed, automated data migration and replication between on-prem, AWS, and other clouds. Uses optimized protocol, supports scheduling, validation, and transfers at terabyte–petabyte scale.
 
-  - **Transfer Family** - Managed SFTP/FTPS/FTP servers for partner/user file exchange. Not designed for bulk migration.
+  - **Transfer Family** - Managed SFTP/FTPS/FTP servers for partner/user file exchange. Not designed for bulk migration; suited for MB–GB scale daily drops.
 
   - External Vendors: Transfer Family is used when external vendors/partners must upload/download files via SFTP/FTPS/FTP. DataSync is not vendor-facing.
 
