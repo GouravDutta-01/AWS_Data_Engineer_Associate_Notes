@@ -126,7 +126,13 @@
     - **SSD = random I/O, low latency**
     - **HDD = sequential throughput, lower IOPS**
 
-- **Event Source mapping**
-  - Event Source Mapping (ESM) connects poll-based event sources (SQS, Kinesis, DynamoDB Streams, Kafka) to Lambda.
-  - Lambda internally performs efficient long polling (not billed) and automatically batches records, manages checkpoints, retries, and parallelization (shards/partitions).
-  - Push-based sources (S3, SNS, EventBridge, API Gateway) do NOT use ESM.
+- **Event Source Mapping (ESM)**
+  - Connects **poll-based sources** (Kinesis, DynamoDB Streams, SQS, Kafka) to Lambda.
+  - Lambda **internally polls**, **batches records**, **manages checkpoints**, **retries failed records**, and supports **parallel processing** (shards/partitions).
+  - **Configurable for ESM:**
+    - `BatchSize` – records per invocation
+    - `StartingPosition` – `TRIM_HORIZON` (oldest) or `LATEST` (new)
+    - `MaximumRetryAttempts` – retries on failure
+    - `BisectBatchOnFunctionError` – splits batch in half on error for retry
+  - Guarantees **at-least-once processing**; **idempotency is recommended**(i.e., safe to run the same record multiple times).
+  - **Push-based sources** (S3, SNS, EventBridge, API Gateway) **do NOT use ESM**; Lambda is invoked immediately per event.
