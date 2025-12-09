@@ -42,6 +42,7 @@ It is attached **only to roles** and uses the action **sts:AssumeRole**.
 ---
 
 ## 3. IAM Policies
+IAM Policies are JSON documents that define what an identity or resource can do.
 
 ### **Identity-Based Policies**
 Attached to:
